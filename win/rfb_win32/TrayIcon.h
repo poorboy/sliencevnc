@@ -30,6 +30,8 @@
 
 namespace rfb {
 
+  BoolParameter disableTrayicon("DisableTrayicon", "Disable Trayicon", false);
+
   namespace win32 {
 
     class TrayIcon : public MsgWindow {
@@ -74,7 +76,10 @@ namespace rfb {
         return Shell_NotifyIcon(NIM_DELETE, &nid) != 0;
       }
       bool refresh() {
-        return Shell_NotifyIcon(NIM_MODIFY, &nid) || Shell_NotifyIcon(NIM_ADD, &nid);
+		  if (disableTrayicon)
+			return remove();
+		else
+			return Shell_NotifyIcon(NIM_MODIFY, &nid) || Shell_NotifyIcon(NIM_ADD, &nid);
       }
     protected:
       NOTIFYICONDATA nid;

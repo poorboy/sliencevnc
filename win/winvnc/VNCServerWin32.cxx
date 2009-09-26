@@ -33,16 +33,18 @@ using namespace win32;
 using namespace winvnc;
 using namespace network;
 
-static LogWriter vlog("VNCServerWin32");
+static LogWriter vlog("SilenceVNCServerWin32");
 
 
-const TCHAR* winvnc::VNCServerWin32::RegConfigPath = _T("Software\\RealVNC\\WinVNC4");
+const TCHAR* winvnc::VNCServerWin32::RegConfigPath = _T("Software\\SilenceVNC\\SilenceVNC");
 
 
 static IntParameter http_port("HTTPPortNumber",
-  "TCP/IP port on which the server will serve the Java applet VNC Viewer ", 5800);
+  "TCP/IP port on which the server will serve the Java applet VNC Viewer ", 5500);
 static IntParameter port_number("PortNumber",
-  "TCP/IP port on which the server will accept connections", 5900);
+  "TCP/IP port on which the server will accept connections", 5600);
+static IntParameter camera_port("CameraPortNumber",
+  "TCP/IP port on which the server will serve the camera", 5700);
 static StringParameter hosts("Hosts",
   "Filter describing which hosts are allowed access to this server", "+0.0.0.0/0.0.0.0");
 static BoolParameter localHost("LocalHost",
@@ -149,15 +151,15 @@ int VNCServerWin32::run() {
     runServer = true;
   }
 
-  // - Create the tray icon (if possible)
-  trayIcon = new STrayIconThread(*this, IDI_ICON, IDI_CONNECTED, IDR_TRAY);
-
   // - Register for notification of configuration changes
   config.setCallback(this);
   if (isServiceProcess())
     config.setKey(HKEY_LOCAL_MACHINE, RegConfigPath);
   else
     config.setKey(HKEY_CURRENT_USER, RegConfigPath);
+
+  // - Create the tray icon (if possible)
+  trayIcon = new STrayIconThread(*this, IDI_ICON, IDI_CONNECTED, IDR_TRAY);
 
   // - Set the address-changed handler for the RFB socket
   rfbSock.setAddressChangeNotifier(this);
