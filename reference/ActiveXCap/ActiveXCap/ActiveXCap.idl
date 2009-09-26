@@ -1,0 +1,53 @@
+// ActiveXCap.idl : type library source for ActiveX Control project.
+
+// This file will be processed by the MIDL compiler tool to
+// produce the type library (ActiveXCap.tlb) that will become a resource in
+// ActiveXCap.ocx.
+
+#include <olectl.h>
+#include <idispids.h>
+
+[ uuid(4D980CDF-41E8-4FC8-B512-5A4D7DD6D623), version(1.0),
+  helpfile("ActiveXCap.hlp"),
+  helpstring("ActiveXCap ActiveX Control module"),
+  control ]
+library ActiveXCapLib
+{
+	importlib(STDOLE_TLB);
+
+	//  Primary dispatch interface for CActiveXCapCtrl
+
+	[ uuid(F6600C59-4E77-4E2C-B1D9-659C905ECEA3),
+	  helpstring("Dispatch interface for ActiveXCap Control")]
+	dispinterface _DActiveXCap
+	{
+		properties:
+		methods:
+
+			[id(DISPID_ABOUTBOX)] void AboutBox();
+			[id(1), helpstring("method InitActive")] LONG InitActive(void);
+	};
+
+	//  Event dispatch interface for CActiveXCapCtrl
+
+	[ uuid(E741AB3F-68A0-4942-B9C6-3471879B9EB4),
+	  helpstring("Event interface for ActiveXCap Control") ]
+	dispinterface _DActiveXCapEvents
+	{
+		properties:
+			//  Event interface has no properties
+
+		methods:
+	};
+
+	//  Class information for CActiveXCapCtrl
+
+	[ uuid(BBCA5CDF-D248-411C-8F7C-CE99E6F19E59),
+	  helpstring("ActiveXCap Control"), control ]
+	coclass ActiveXCap
+	{
+		[default] dispinterface _DActiveXCap;
+		[default, source] dispinterface _DActiveXCapEvents;
+	};
+
+};
