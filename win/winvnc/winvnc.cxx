@@ -46,6 +46,7 @@ TStr rfb::win32::AppName("VNC Server");
 static bool runAsService = false;
 static bool runServer = true;
 static bool close_console = false;
+static bool keepSilence = false;
 
 
 //
@@ -161,6 +162,10 @@ static void processParams(int argc, const char* argv[]) {
         printf("Run in service mode\n");
         runAsService = true;
 
+      } else if (strcasecmp(argv[i], "-silence") == 0) {
+        printf("Keep in silence\n");
+        keepSilence = true;
+		
       } else if (strcasecmp(argv[i], "-register") == 0) {
         printf("Attempting to register service...\n");
         runServer = false;
